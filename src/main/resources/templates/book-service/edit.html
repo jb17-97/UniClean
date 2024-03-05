@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="base::layout(~{::section})">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+	<section>
+		<!-- main content -->
+		<main class="mt-1 p-2">
+			<div class="container">
+
+				<nav class="mt-1 mb-5" style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+					<ol class="breadcrumb">
+						<li class="breadcrumb-item"><a href="/">Home</a></li>
+						<li class="breadcrumb-item"><a href="/book-service">Cleaning Service</a></li>
+						<li class="breadcrumb-item">Edit</li>
+					</ol>
+				</nav>
+
+				<div class="row">
+					<div th:if="${msg}" class="col-md-6 mb-3 alert alert-danger" style="margin-left:10px;">
+						<span th:text="${msg}"></span>
+					</div>
+				</div>
+
+				<form th:action="@{/book-service/edit}" th:object="${bookingDTO}" method="post">
+
+					<div class="row">
+						<input type="hidden" th:field="*{id}"/>
+
+						<div class="col-md-4">
+							<label for="cleaner" class="form-label">Select Cleaner</label>
+							<select class="form-control" id="cleaner" th:field="*{cleaner}" required>
+								<option th:each="cleanerOption : ${cleanerList}" th:value="${cleanerOption.key}" th:text="${cleanerOption.value}"></option>
+							</select>
+						</div>
+						<div class="col-md-4">
+							<label for="cleaner" class="form-label">Select Cleaning Type</label>
+							<select class="form-control" id="cleaningType" th:field="*{cleaningType}" required>
+								<option th:each="cleaningType : ${cleaningTypeList}" th:value="${cleaningType.key}" th:text="${cleaningType.value}"></option>
+							</select>
+						</div>
+						<div class="col-md-4" id="cleaningDate_container">
+							<label for="cleaningDate" class="form-label">Date</label>
+							<input class="form-control" type="date" id="cleaningDate" th:field="*{cleaningDate}" required/>
+						</div>
+					</div>
+					<div class="row mt-3">
+						<div class="col-md-4">
+							<label for="hour" class="form-label">Hours</label>
+							<input class="form-control" type="text" id="hour" th:field="*{hour}" pattern="[0-9]+([,.][0-9]+)?" required/>
+						</div>
+
+						<div class="col-md-4">
+							<label for="totalPrice" class="form-label">Total Price</label>
+							<input class="form-control" type="text" id="totalPrice" th:field="*{totalPrice}" readonly="readonly" required/>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-md-5 mt-4">
+							<a href="/book-service" class="btn btn-warning" style="margin-right: 15px;"> Back</a>
+							<button type="submit" class="btn btn-success"> Update Booking Info</button>
+						</div>
+					</div>
+
+				</form>
+
+			</div>
+
+		</main>
+		<!-- main content end-->
+
+		<script th:src="@{/js/book-service/booking.js}" type="text/javascript"></script>
+	</section>
+
+</body>
+
+</html>

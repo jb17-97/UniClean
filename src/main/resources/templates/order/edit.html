@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="base::layout(~{::section})">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+	<section>
+		<!-- main content -->
+		<main class="mt-1 p-2">
+			<div class="container">
+
+				<nav class="mt-1 mb-5" style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+					<ol class="breadcrumb">
+						<li class="breadcrumb-item"><a href="/">Home</a></li>
+						<li class="breadcrumb-item"><a href="/order">Orders</a></li>
+						<li class="breadcrumb-item">Edit</li>
+					</ol>
+				</nav>
+
+				<div class="row">
+					<div th:if="${msg}" class="col-md-6 mb-3 alert alert-danger" style="margin-left:10px;">
+						<span th:text="${msg}"></span>
+					</div>
+				</div>
+
+				<form id="bookingForm" th:action="@{/order/edit}" th:object="${bookingDTO}" method="post">
+					<div class="row">
+						<input type="hidden" th:field="*{id}"/>
+						<input type="hidden" th:field="*{email}"/>
+						<div class="col-md-4">
+							<label for="bookedBy" class="form-label">Cleaning Request From</label>
+							<input class="form-control" type="text" id="bookedBy" th:field="*{bookedBy}" readonly="readonly"/>
+						</div>
+						<div class="col-md-4">
+							<label for="address" class="form-label">Address</label>
+							<input class="form-control" type="text" id="address" th:field="*{address}" readonly="readonly"/>
+						</div>
+						<div class="col-md-4">
+							<label for="city" class="form-label">City</label>
+							<input class="form-control" type="text" id="city" th:field="*{city}" readonly="readonly"/>
+						</div>
+					</div>
+					<div class="row mt-3">
+						<div class="col-md-4">
+							<label for="telephone" class="form-label">Telephone</label>
+							<input class="form-control" type="text" id="telephone" th:field="*{telephone}" readonly="readonly"/>
+						</div>
+
+						<div class="col-md-4">
+							<label for="cleaningType" class="form-label">Cleaning Type</label>
+							<input class="form-control" type="text" id="cleaningType" th:field="*{cleaningType}" readonly="readonly"/>
+						</div>
+						<div class="col-md-4" id="cleaningDate_container">
+							<label for="cleaningDate" class="form-label">Date</label>
+							<input class="form-control" type="text" id="cleaningDate" th:field="*{cleaningDate}" readonly="readonly"/>
+						</div>
+					</div>
+					<div class="row mt-3">
+						<div class="col-md-4">
+							<label for="hour" class="form-label">Hours</label>
+							<input class="form-control" type="text" id="hour" th:field="*{hour}" readonly="readonly"/>
+						</div>
+
+						<div class="col-md-4">
+							<label for="totalPrice" class="form-label">Total Price</label>
+							<input class="form-control" type="text" id="totalPrice" th:field="*{totalPrice}" readonly="readonly"/>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-5 mt-4">
+							<a href="/order" class="btn btn-warning" style="margin-right: 15px;"> Back</a>
+							<a href="#" class="btn btn-danger reject" style="margin-right: 15px;"> Reject Order</a>
+							<a href="#" class="btn btn-primary accept" style="margin-right: 15px;"> Accept Order</a>
+						</div>
+					</div>
+				</form>
+			</div>
+		</main>
+		<!-- main content end-->
+
+		<script th:src="@{/js/order/order.js}" type="text/javascript"></script>
+	</section>
+
+</body>
+
+</html>
