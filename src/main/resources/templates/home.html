@@ -23,7 +23,7 @@
         }
 
         header {
-          background-color: #343a40;
+          background-color: #DDFFDF;
           color: #ffffff;
           padding: 10px;
           display: flex;
@@ -33,7 +33,7 @@
 
         header a {
           text-decoration: none;
-          color: #ffffff;
+          color: #025D06;
           font-weight: bold;
           font-size: 16px;
           padding: 8px 12px;
@@ -42,7 +42,8 @@
         }
 
         header a:hover {
-          background-color: #5a6268;
+          background-color: #025D06;
+          color: #DDFFDF;
         }
 
         header img {
@@ -54,12 +55,48 @@
           display: flex;
           gap: 20px;
         }
+        #services{
+        	position: absolute;
+        	left: 15%;
+        }
 
         .container {
           flex: 1;
           display: flex;
+          flex-direction: column;
           align-items: center;
-          justify-content: center;
+		  justify-content: center;
+          margin-top: 0;
+          background:red;
+        }
+        section{background: red;margin: 5px;}
+
+        #section-1{
+        height: 400px;
+        position: relative;
+        margin: 5px;
+        background-image:url("images/logo.png");
+        background-size: cover;
+        }
+
+        h1{
+        	font-weight:bold;
+        	text-align: center;
+        	width: 50%;
+        	margin-top: 100px;
+        	z-index: -1;
+        }
+
+		button{
+         background-color: #025D06;
+         color: #DDFFDF;
+         margin-bottom: 10px;
+         margin-left: 20px
+        }
+        #banner-register-link{
+        text-weight: bold;
+        color: #025D06;
+        margin-left: 20px
         }
 
         .login-card {
@@ -93,8 +130,8 @@
         }
 
         footer {
-          background-color: #343a40;
-          color: #ffffff;
+          background-color: #DDFFDF;
+          color: #025D06;
           padding: 10px;
           text-align: center;
           position: fixed;
@@ -107,12 +144,16 @@
 <body>
 
 <header>
-	<div>
-		<a href="/">
-			<img src="images/logo.png" alt="Logo">
-		</a>
+	<div id="logo">
+			<img src="images/logo.png" href="/" alt="Logo">
 	</div>
 	<nav>
+		<div id="services">
+		<a href="">Standard Cleaning</a>
+		<a href="">Deep Cleaning</a>
+		<a href="">Bathroom Cleaning</a>
+		<a href="">Kitchen Cleaning</a>
+		</div>
 		<a href="/login">Login</a>
 		<a href="/register">Register</a>
 	</nav>
@@ -120,7 +161,27 @@
 
 <div class="container">
 	<!-- Your content goes here -->
-	<h1>This is Home Page</h1>
+	<section id="section-1" role="region" aria-labelledby="banner-title">
+		<h1>Welcome to UniClean!<br>The first ever and best accomodation cleaning service </h1>
+		<a href="/login"><button>Book my cleaning</button></a><br>
+		<a id="banner-register-link" href="/register">Become a cleaner</a>
+	</section>
+<!--	<section role="region" aria-labelledby="Standard-cleaning">-->
+<!--		<h1>Welcome to UniClean!<br>The first ever and best accomodation cleaning service </h1>-->
+<!--		<img class="home-page-images" src="">-->
+<!--	</section>-->
+<!--	<section role="region" aria-labelledby="deep-cleaning">-->
+<!--		<h1>Welcome to UniClean!<br>The first ever and best accomodation cleaning service </h1>-->
+<!--		<img class="home-page-images" src="">-->
+<!--	</section>-->
+<!--	<section role="region" aria-labelledby="bathroom-cleaning">-->
+<!--		<h1>Welcome to UniClean!<br>The first ever and best accomodation cleaning service </h1>-->
+<!--		<img class="home-page-images" src="">-->
+<!--	</section>-->
+<!--	<section role="region" aria-labelledby="kitchen-cleaning">-->
+<!--		<h1>Welcome to UniClean!<br>The first ever and best accomodation cleaning service </h1>-->
+<!--		<img class="home-page-images" src="">-->
+<!--	</section>-->
 </div>
 
 <footer>
