@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" th:href="@{/css/bootstrap/bootstrap.min.css}" />
+
+	<title>Home Page</title>
+	<style>
+		html,
+        body {
+          height: 100%;
+          margin: 0;
+          padding: 0;
+          font-family: 'Arial', sans-serif;
+        }
+
+        body {
+          display: flex;
+          flex-direction: column;
+          background-color: #f5f5f5;
+        }
+
+        header {
+          background-color: #DDFFDF;
+          color: #ffffff;
+          padding: 10px;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          position: fixed;
+          top:0;
+          width: 100%;
+        }
+
+        header a {
+          text-decoration: none;
+          color: #025D06;
+          font-weight: bold;
+          font-size: 16px;
+          padding: 8px 12px;
+          border-radius: 5px;
+          transition: background-color 0.3s ease;
+        }
+
+        header a:hover {
+          background-color: #025D06;
+          color: #DDFFDF;
+        }
+
+        header img {
+          width: 100px;
+          height: 100px;
+        }
+
+        header nav {
+          display: flex;
+          gap: 20px;
+        }
+        #services{
+        	position: absolute;
+        	left: 15%;
+        }
+
+        .container {
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+		  justify-content: center;
+          margin-top: 80px;
+          padding: 50px;
+
+        }
+        section{
+
+		 width: 90%;
+		 margin: 5px;
+        }
+        .services{
+         padding: 10px;
+        }
+        img{
+         border: 2px solid transparent;
+         border-radius: 10px;
+        }
+        .generalInfo{
+         height: fit-content;
+
+         margin-top: 70px;
+         padding: 0;
+         width: 40%;
+        }
+        .infoEven{
+         margin-right:45px;
+         width: 58%;
+         float: right;
+        }
+        .imageEven{
+         width: 30%;
+ 		height: 90%;
+         float: left;
+        }
+
+        #h1{
+        	font-weight:bold;
+        	text-align: center;
+        	width: 50%;
+        	margin-top: 100px;
+        	z-index: -1;
+        }
+        #company-info{
+        	margin: 20px;
+
+        	text-align: center;
+        }
+
+        footer {
+          background-color: #DDFFDF;
+          color: #025D06;
+          margin-top:20px;
+          padding: 10px;
+          text-align: center;
+          bottom: 0;
+          width: 100%;
+        }
+
+	</style>
+</head>
+
+<body>
+
+<header>
+	<div id="logo">
+		<img src="images/logo.png" href="/" alt="Logo">
+	</div>
+	<nav>
+		<div id="services">
+			<a href="#standard-cleaning">Standard Cleaning</a>
+			<a href="#deep-cleaning">Deep Cleaning</a>
+			<a href="#bathroom-cleaning">Bathroom Cleaning</a>
+			<a href="#kitchen-cleaning">Kitchen Cleaning</a>
+			<a href="/about-us">About Us</a>
+		</div>
+		<a href="/login">Login</a>
+		<a href="/register">Register</a>
+	</nav>
+</header>
+
+<div class="container">
+	<div>
+		<h1>About Us</h1>
+		<p>This website is a cleaning service provider for university students living in accommodation like you!!!.<br>
+			You will be able to book, cancel and update your bookings.
+			You will also be able to book different types of services. For example, standard, deep, bathroom, or kitchen cleaning services.
+			You will have the option to choose how often you would like your accommodation to be clean (One-time, regularly, etc.),
+			among other features which you will find on the website.</p>
+	</div>
+	<div>
+		<section class="services" role="region" aria-labelledby="deep-cleaning">
+			<div class="generalInfo infoEven">
+				<h1>Banta Jabbi</h1>
+				<h2>The Developer</h2>
+				<p>Welcome to my website. Everything was designed by me. The purpose of this website
+				was to provide you a service which would save you a lot of time in cleaning you accommodation,
+				so I hope you enjoy it and if you have any concerns or suggestions, our information can be
+				found in the section below<br>
+				<b>THANKS FOR VISITING OUR WEBSITE</b></p>
+			</div>
+			<div id="deep-cleaning" class="imageEven">
+				<img src="images/Banta.jpg" width="280px" height="290px" >
+			</div>
+		</section>
+			<div id="company-info">
+				<h1>********</h1>
+				<p><b>Address:</b> UniClean Street<br>B17 1LL<br>Aston</p>
+				<p><b>Phone Number:</b>0121 344 5456</p>
+				<p><b>Email:</b> UniClean@Services.com</p>
+			</div>
+
+	</div>
+</div>
+
+<footer>
+	<p>&copy; Jabbi 01. All rights reserved.</p>
+</footer>
+
+</body>
+
+</html>
