@@ -10,4 +10,5 @@ import lombok.NoArgsConstructor;
 public class CalculationDTO {
     private String cleaningType;
     private String hour;
+    private String serviceType;
 }

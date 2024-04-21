@@ -52,13 +52,13 @@
 												<i class="bi bi-pencil-square"></i>
 											</a>
 										</th:block>
-									</td>
 
-									<!--<td>
-										<a th:href="@{/cleaner/edit/{id}(id=${cleaner.id})}" class="btn btn-sm btn-warning">
-										    <i class="bi bi-pencil-square"></i>
-										</a>
-									</td>-->
+										<th:block th:if="${session.user.role} == 'ADMIN'">
+											<a th:href="@{/cleaner/delete/{id}(id=${cleaner.id})}" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this cleaner?');">
+												<i class="bi bi-trash"></i>
+											</a>
+										</th:block>
+									</td>
 								</tr>
 							</tbody>
 							

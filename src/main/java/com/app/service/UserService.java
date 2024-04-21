@@ -2,21 +2,25 @@ package com.app.service;
 
 import com.app.dto.*;
 import com.app.model.User;
+import com.app.repository.BookingRepository;
 import com.app.repository.UserRepository;
 import com.app.util.CommonUtil;
 import com.app.util.RequestValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private BookingRepository bookingRepository;
 
     public AppResponse authenticateUser(LoginRequest loginRequest) {
         try {
@@ -66,6 +70,7 @@ public class UserService {
             user.setTelephone(signupRequest.getTelephone());
             user.setEmail(signupRequest.getEmail());
             user.setPassword(CommonUtil.getEncodedPassword(signupRequest.getPassword()));
+            user.setUniversity(signupRequest.getUniversity());
 
             if(signupRequest.getRegistrationType().equals("USER")){
                 user.setRole("USER");
@@ -270,6 +275,24 @@ public class UserService {
         catch (Exception e) {
             e.printStackTrace();
             return new AppResponse(false, "Failed to update profile !");
+        }
+    }
+
+    @Transactional
+    public AppResponse deleteCleanerById(Long id) {
+        try {
+            Optional<User> cleanerOptional = userRepository.findById(id);
+            if(cleanerOptional.isEmpty()) {
+                return new AppResponse(false, "Cleaner not found !");
+            }
+
+            bookingRepository.deleteByCleaner(cleanerOptional.get());
+            userRepository.deleteById(id);
+            return new AppResponse(true, "Cleaner Deleted.");
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return new AppResponse(false, "Failed to delete cleaner !");
         }
     }
 }

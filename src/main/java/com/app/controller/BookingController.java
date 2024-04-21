@@ -60,7 +60,8 @@ public class BookingController {
 
         model.addAttribute("cleanerList", userService.getActiveCleanerList());
         model.addAttribute("cleaningTypeList", bookingService.getCleaningTypeList());
-        //model.addAttribute("serviceTypeList", bookingService.getServiceTypeList());
+
+        model.addAttribute("serviceTypeList", bookingService.getServiceTypeList());
 
         model.addAttribute("am", ACTIVE_MENU);
         log.info("Exiting loadAddPage() method");
@@ -82,6 +83,10 @@ public class BookingController {
         else{
             model.addAttribute("msg", appResponse.getMessage());
             model.addAttribute("bookingDTO", bookingDTO);
+
+            model.addAttribute("cleanerList", userService.getActiveCleanerList());
+            model.addAttribute("cleaningTypeList", bookingService.getCleaningTypeList());
+            model.addAttribute("serviceTypeList", bookingService.getServiceTypeList());
             log.info("Exiting addBooking() method");
             return ADD_PAGE;
         }

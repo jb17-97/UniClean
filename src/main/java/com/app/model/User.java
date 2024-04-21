@@ -62,4 +62,7 @@ public class User {
 
 	@Column(name = "status")
 	private String status;
+
+	@Column(name = "university")
+	private String university;
 }

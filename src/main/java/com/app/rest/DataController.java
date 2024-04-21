@@ -1,5 +1,6 @@
 package com.app.rest;
 
+import com.app.dto.BookingOptionDTO;
 import com.app.dto.CalculationDTO;
 import com.app.util.CommonUtil;
 import org.slf4j.Logger;
@@ -32,6 +33,22 @@ public class DataController {
         } catch (Exception e) {
             e.printStackTrace();
             log.info("Exiting calculatePrice() method");
+            return new ResponseEntity<>(data, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PostMapping("/booking-options")
+    public ResponseEntity<?> getBookingOptions(@RequestBody BookingOptionDTO bookingOptionDTO) {
+        log.info("Entering getBookingOptions() method");
+        log.info("bookingOptionDTO : "+bookingOptionDTO);
+        Map<String, Object> data = new LinkedHashMap<String, Object>();
+        try {
+            data.put("bookingOption", CommonUtil.getAllBookingOptions(bookingOptionDTO));
+            return new ResponseEntity<>(data, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.info("Exiting getBookingOptions() method");
+            data.put("bookingOption", "");
             return new ResponseEntity<>(data, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

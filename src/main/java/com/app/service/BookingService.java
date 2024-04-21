@@ -14,9 +14,11 @@ import com.app.util.CommonUtil;
 import com.app.util.RequestValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,22 +40,25 @@ public class BookingService {
     public List<ListVo> getCleaningTypeList() {
         List<ListVo> list = new ArrayList<>();
         list.add(new ListVo("", "--select one--"));
-        list.add(new ListVo("Normal Cleaning", "Normal Cleaning"));
+        list.add(new ListVo("Standard Cleaning", "Standard Cleaning"));
         list.add(new ListVo("Deep Cleaning", "Deep Cleaning"));
+        list.add(new ListVo("Bathroom Cleaning", "Bathroom Cleaning"));
         list.add(new ListVo("Kitchen Cleaning", "Kitchen Cleaning"));
+
         return list;
     }
 
     public List<ListVo> getServiceTypeList() {
         List<ListVo> list = new ArrayList<>();
         list.add(new ListVo("", "--select one--"));
-        list.add(new ListVo("One Time", "One Time"));
-        list.add(new ListVo("Two Weeks", "Two Weeks"));
-        list.add(new ListVo("Monthly Cleaning", "Monthly Cleaning"));
+        list.add(new ListVo("Pay-per-service", "Pay-per-service"));
+        list.add(new ListVo("subscription", "subscription"));
         return list;
     }
 
+    @Transactional
     public AppResponse addBooking(BookingDTO bookingDTO, User loggedInUser) {
+        System.out.println("Cleaning Time : "+bookingDTO.getCleaningTime());
         try {
             if(!RequestValidator.isBookingAddRequestValid(bookingDTO)){
                 return new AppResponse(false, "Invalid value provided !");
@@ -64,20 +69,119 @@ public class BookingService {
                 return new AppResponse(false, "Cleaner not found !");
             }
 
-            Booking booking = new Booking();
-            booking.setCleaner(cleanerOptional.get());
-            booking.setHour(Double.parseDouble(bookingDTO.getHour()));
-            booking.setCleaningType(bookingDTO.getCleaningType());
-            booking.setCleaningDate(CommonUtil.getDateFromString(bookingDTO.getCleaningDate()));
-            booking.setTotalPrice(Double.parseDouble(bookingDTO.getTotalPrice()));
+            if(bookingDTO.getServiceType().equals("Pay-per-service")) {
 
-            booking.setBookedBy(loggedInUser);
-            booking.setBookedAt(new Timestamp(System.currentTimeMillis()));
+               /* Booking bookingCheck = bookingRepository.findFirstByCleaningDateAndCleaner(CommonUtil.getDateFromString(bookingDTO.getCleaningDate()), cleanerOptional.get());
+                if(bookingCheck != null) {
+                    return new AppResponse(false, "Cleaner already booked on : "+bookingDTO.getCleaningDate());
+                }*/
 
-            booking.setStatus("Pending"); //initially pending. Cleaner will accept later
+                Booking booking = new Booking();
+                booking.setCleaner(cleanerOptional.get());
+                booking.setHour(Double.parseDouble(bookingDTO.getHour()));
+                booking.setCleaningType(bookingDTO.getCleaningType());
+                booking.setCleaningDate(CommonUtil.getDateFromString(bookingDTO.getCleaningDate()));
+                booking.setCleaningTime(bookingDTO.getCleaningTime());
+                booking.setServiceType(bookingDTO.getServiceType());
+                booking.setTotalPrice(Double.parseDouble(bookingDTO.getTotalPrice()));
 
-            bookingRepository.save(booking);
+                booking.setBookedBy(loggedInUser);
+                booking.setBookedAt(new Timestamp(System.currentTimeMillis()));
 
+                booking.setStatus("Pending"); //initially pending. Cleaner will accept later
+                bookingRepository.save(booking);
+            }
+            else if(bookingDTO.getServiceType().equals("subscription")) {
+                if(bookingDTO.getSpecificService().equals("weekly")) { //7 days
+                    Date nextCleaningDate = CommonUtil.getDateFromString(bookingDTO.getCleaningDate());
+                     // 3 entries
+                    for(int i=1; i<=3; i++) {
+
+                        if(i != 1) {
+                            nextCleaningDate = CommonUtil.getCustomDate(nextCleaningDate, 7);
+                        }
+
+                       /* Booking bookingCheck = bookingRepository.findFirstByCleaningDateAndCleaner(nextCleaningDate, cleanerOptional.get());
+                        if(bookingCheck != null) {
+                            return new AppResponse(false, "Cleaner already booked on : "+bookingDTO.getCleaningDate());
+                        }*/
+
+                        Booking booking = new Booking();
+                        booking.setCleaner(cleanerOptional.get());
+                        booking.setHour(Double.parseDouble(bookingDTO.getHour()));
+                        booking.setCleaningType(bookingDTO.getCleaningType());
+                        booking.setCleaningDate(nextCleaningDate);
+                        booking.setCleaningTime(bookingDTO.getCleaningTime());
+                        booking.setServiceType(bookingDTO.getServiceType());
+                        booking.setTotalPrice(Double.parseDouble(bookingDTO.getTotalPrice()));
+
+                        booking.setBookedBy(loggedInUser);
+                        booking.setBookedAt(new Timestamp(System.currentTimeMillis()));
+
+                        booking.setStatus("Pending"); //initially pending. Cleaner will accept later
+                        bookingRepository.save(booking);
+
+                    }
+                }
+                else if(bookingDTO.getSpecificService().equals("fortnightly")) { //every 2 weeks - 14 days
+                    // 3 entries
+                    Date nextCleaningDate = CommonUtil.getDateFromString(bookingDTO.getCleaningDate());
+                    for(int i=1; i<=3; i++) {
+
+                        if(i != 1) {
+                            nextCleaningDate = CommonUtil.getCustomDate(nextCleaningDate, 14);
+                        }
+
+                      /*  Booking bookingCheck = bookingRepository.findFirstByCleaningDateAndCleaner(nextCleaningDate, cleanerOptional.get());
+                        if(bookingCheck != null) {
+                            return new AppResponse(false, "Cleaner already booked on : "+bookingDTO.getCleaningDate());
+                        }*/
+
+                        Booking booking = new Booking();
+                        booking.setCleaner(cleanerOptional.get());
+                        booking.setHour(Double.parseDouble(bookingDTO.getHour()));
+                        booking.setCleaningType(bookingDTO.getCleaningType());
+                        booking.setCleaningDate(nextCleaningDate);
+                        booking.setCleaningTime(bookingDTO.getCleaningTime());
+                        booking.setServiceType(bookingDTO.getServiceType());
+                        booking.setTotalPrice(Double.parseDouble(bookingDTO.getTotalPrice()));
+
+                        booking.setBookedBy(loggedInUser);
+                        booking.setBookedAt(new Timestamp(System.currentTimeMillis()));
+
+                        booking.setStatus("Pending"); //initially pending. Cleaner will accept later
+                        bookingRepository.save(booking);
+
+                    }
+                }
+                else if(bookingDTO.getSpecificService().equals("monthly")) {
+                    // 3 entries
+                    Date nextCleaningDate = CommonUtil.getDateFromString(bookingDTO.getCleaningDate());
+                    // 3 entries
+                    for(int i=1; i<=3; i++) {
+
+                        if(i != 1) {
+                            nextCleaningDate = CommonUtil.getCustomDateByAddingMonth(nextCleaningDate, 1);
+                        }
+
+                        Booking booking = new Booking();
+                        booking.setCleaner(cleanerOptional.get());
+                        booking.setHour(Double.parseDouble(bookingDTO.getHour()));
+                        booking.setCleaningType(bookingDTO.getCleaningType());
+                        booking.setCleaningDate(nextCleaningDate);
+                        booking.setCleaningTime(bookingDTO.getCleaningTime());
+                        booking.setServiceType(bookingDTO.getServiceType());
+                        booking.setTotalPrice(Double.parseDouble(bookingDTO.getTotalPrice()));
+
+                        booking.setBookedBy(loggedInUser);
+                        booking.setBookedAt(new Timestamp(System.currentTimeMillis()));
+
+                        booking.setStatus("Pending"); //initially pending. Cleaner will accept later
+                        bookingRepository.save(booking);
+
+                    }
+                }
+            }
             return new AppResponse(true, "Booking Added Successfully");
         }
         catch (Exception e) {
@@ -305,5 +409,41 @@ public class BookingService {
             e.printStackTrace();
             return new ArrayList<>();
         }
+    }
+
+    public String getBookingStatistics (User loggedInUser) {
+        StringBuilder statistics = new StringBuilder();
+        try {
+            List<Booking> bookings = new ArrayList<>();
+            if(loggedInUser.getRole().equals("CLEANER")) {
+                bookings = bookingRepository.findByCleaner(loggedInUser);
+            }
+            else if(loggedInUser.getRole().equals("USER")) {
+                bookings = bookingRepository.findByBookedBy(loggedInUser);
+            }
+            else {
+                return "";
+            }
+            //bookings = bookingRepository.findAll();
+            int totalBooking = bookings.size();
+            int completedBooking = 0;
+            int cancelledBooking = 0;
+
+            for (Booking booking : bookings) {
+                String status = booking.getStatus();
+                if(status.equals("Accepted By Cleaner")){
+                    completedBooking = completedBooking + 1;
+                }
+                else if(status.equals("Rejected By Cleaner")){
+                    cancelledBooking = cancelledBooking + 1;
+                }
+                statistics.append(totalBooking).append("#").append(completedBooking).append("#").append(cancelledBooking);
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            statistics = new StringBuilder("0#0#0");
+        }
+        return statistics.toString();
     }
 }

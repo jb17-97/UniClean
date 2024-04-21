@@ -80,6 +80,17 @@ public class CleanerController {
         }
     }
 
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
+    public String deleteCleanerById(@PathVariable("id") Long id, final RedirectAttributes redirectAttributes) {
+        log.info("Entering deleteCleanerById() method");
+        log.info("Cleaner ID : "+id);
+
+        AppResponse appResponse = userService.deleteCleanerById(id);
+        redirectAttributes.addFlashAttribute("activity_msg", appResponse.getMessage());
+        log.info("Exiting deleteCleanerById() method");
+        return REDIRECT_TO_LIST_PAGE;
+    }
+
 
 
 }

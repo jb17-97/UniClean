@@ -27,6 +27,10 @@ public class Review {
     private Long bookingId;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "booking_id", referencedColumnName = "id", insertable = false, updatable = false)
+    private Booking booking;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "review_by", nullable = false)
     private User reviewBy;
 

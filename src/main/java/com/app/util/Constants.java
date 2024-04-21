@@ -1,7 +1,8 @@
 package com.app.util;
 
 public class Constants {
-    public static final Integer NORMAL_CLEANING_PRICE_PER_HOUR = 20;
-    public static final Integer DEEP_CLEANING_PRICE_PER_HOUR = 30;
-    public static final Integer KITCHEN_CLEANING_PRICE_PER_HOUR = 25;
+    public static final Double STANDARD_CLEANING_PRICE_PER_HOUR = 12.50;
+    public static final Double DEEP_CLEANING_PRICE_PER_HOUR = 14.50;
+    public static final Double BATHROOM_CLEANING_PRICE_PER_HOUR = 14.99;
+    public static final Double KITCHEN_CLEANING_PRICE_PER_HOUR = 11.50;
 }

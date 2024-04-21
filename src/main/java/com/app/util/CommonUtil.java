@@ -1,5 +1,6 @@
 package com.app.util;
 
+import com.app.dto.BookingOptionDTO;
 import com.app.dto.CalculationDTO;
 import com.app.dto.ListVo;
 import com.app.model.User;
@@ -8,9 +9,7 @@ import org.mindrot.jbcrypt.BCrypt;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 public class CommonUtil {
     public static Boolean isValueNotNullAndEmpty(Object key) {
@@ -45,15 +44,24 @@ public class CommonUtil {
             Double hour = Double.parseDouble(calculationDTO.getHour());
             String cleaningType = calculationDTO.getCleaningType();
 
-            if(cleaningType.equals("Normal Cleaning")){
-                totalPrice += (Constants.NORMAL_CLEANING_PRICE_PER_HOUR.doubleValue()*hour);
+            if(cleaningType.equals("Standard Cleaning")){
+                totalPrice += (Constants.STANDARD_CLEANING_PRICE_PER_HOUR*hour);
             }
             else if(cleaningType.equals("Deep Cleaning")){
-                totalPrice += (Constants.DEEP_CLEANING_PRICE_PER_HOUR.doubleValue()*hour);
+                totalPrice += (Constants.DEEP_CLEANING_PRICE_PER_HOUR*hour);
             }
-            else {
-                totalPrice += (Constants.KITCHEN_CLEANING_PRICE_PER_HOUR.doubleValue()*hour);
+            else if(cleaningType.equals("Bathroom Cleaning")){
+                totalPrice += (Constants.BATHROOM_CLEANING_PRICE_PER_HOUR*hour);
             }
+            else if(cleaningType.equals("Kitchen Cleaning")){
+                totalPrice += (Constants.KITCHEN_CLEANING_PRICE_PER_HOUR*hour);
+            }
+
+            // 10% discount
+            if(calculationDTO.getServiceType().equals("subscription")) {
+                totalPrice = totalPrice - (totalPrice*(0.10));
+            }
+
             return totalPrice;
         }
         catch (Exception e) {
@@ -78,4 +86,75 @@ public class CommonUtil {
         list.add(new ListVo("Approved", "Approved"));
         return list;
     }
+
+    public static Date getCustomDate(Date customDate, int day) {
+        try {
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(customDate);
+
+            // Add the specified number of days
+            calendar.add(Calendar.DAY_OF_MONTH, day);
+
+            // Return the modified date
+            return calendar.getTime();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static Date getCustomDateByAddingMonth(Date customDate, int counter) {
+        try {
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(customDate);
+
+            // Add the no. of month
+            calendar.add(Calendar.MONTH, counter);
+
+            // Return the modified date
+            return calendar.getTime();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+
+    public static String getAllBookingOptions(BookingOptionDTO bookingOptionDTO) {
+        String bookingOptions = "";
+        try {
+            if(bookingOptionDTO.getSpecificService().equals("weekly")) {
+                Date dateOne = getDateFromString(bookingOptionDTO.getCleaningDate());
+                Date dateTwo = getCustomDate(dateOne, 7);
+                Date dateThree = getCustomDate(dateTwo, 7);
+                bookingOptions += getReadableDateFormat(dateOne) + "#" + getReadableDateFormat(dateTwo) + "#" + getReadableDateFormat(dateThree);
+                return  bookingOptions;
+            }
+            else if(bookingOptionDTO.getSpecificService().equals("fortnightly")) {
+                Date dateOne = getDateFromString(bookingOptionDTO.getCleaningDate());
+                Date dateTwo = getCustomDate(dateOne, 14);
+                Date dateThree = getCustomDate(dateTwo, 14);
+                bookingOptions += getReadableDateFormat(dateOne) + "#" + getReadableDateFormat(dateTwo) + "#" + getReadableDateFormat(dateThree);
+                return  bookingOptions;
+            }
+            else if(bookingOptionDTO.getSpecificService().equals("monthly")) {
+                Date dateOne = getDateFromString(bookingOptionDTO.getCleaningDate());
+                Date dateTwo = getCustomDateByAddingMonth(dateOne, 1);
+                Date dateThree = getCustomDateByAddingMonth(dateTwo, 1);
+                bookingOptions += getReadableDateFormat(dateOne) + "#" + getReadableDateFormat(dateTwo) + "#" + getReadableDateFormat(dateThree);
+                return  bookingOptions;
+            }
+
+            return  bookingOptions;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return bookingOptions;
+        }
+    }
+
+    private static String getReadableDateFormat(Date date) {
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy");
+        return formatter.format(date);
+    }
+
 }

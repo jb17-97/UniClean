@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalTime;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -13,9 +15,13 @@ public class BookingDTO {
     private String cleaner;
     //normal cleaning, deep cleaning or kitchen cleaning
     private String cleaningType;
-    //one time, two weeks or monthly cleaning
-    //private String serviceType;
+
+    //Pay-per-service, subscription
+    private String serviceType;
+    private String specificService; // weekly, fortnightly or monthly
+
     private String cleaningDate;
+    private LocalTime cleaningTime;
     private String hour;
     private String totalPrice;
 

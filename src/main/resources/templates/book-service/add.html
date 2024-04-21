@@ -35,7 +35,7 @@
 							</select>
 						</div>
 						<div class="col-md-4">
-							<label for="cleaner" class="form-label">Select Cleaning Type</label>
+							<label for="cleaningType" class="form-label">Select Cleaning Type</label>
 							<select class="form-control" id="cleaningType" th:field="*{cleaningType}" required>
 								<option th:each="cleaningType : ${cleaningTypeList}" th:value="${cleaningType.key}" th:text="${cleaningType.value}"></option>
 							</select>
@@ -45,6 +45,30 @@
 							<input class="form-control" type="date" id="cleaningDate" th:field="*{cleaningDate}" required/>
 						</div>
 					</div>
+
+					<div class="row mt-3">
+						<div class="col-md-4">
+							<label for="cleaningTime" class="form-label">Time</label>
+							<input class="form-control" type="time" id="cleaningTime" th:field="*{cleaningTime}" required/>
+						</div>
+						<div class="col-md-4">
+							<label for="serviceType" class="form-label">Select Service Type</label>
+							<select class="form-control" id="serviceType" th:field="*{serviceType}" required>
+								<option th:each="serviceType : ${serviceTypeList}" th:value="${serviceType.key}" th:text="${serviceType.value}"></option>
+							</select>
+						</div>
+
+						<div class="col-md-4" id="specific_service_container" style="display:none">
+							<label for="specificService" class="form-label">Select Specific Service</label>
+							<select class="form-control" id="specificService" th:field="*{specificService}">
+								<option value="">select one</option>
+								<option value="weekly">weekly</option>
+								<option value="fortnightly">fortnightly</option>
+								<option value="monthly">monthly</option>
+							</select>
+						</div>
+					</div>
+
 					<div class="row mt-3">
 						<div class="col-md-4">
 							<label for="hour" class="form-label">Hours</label>
@@ -56,12 +80,20 @@
 							<input class="form-control" type="text" id="totalPrice" th:field="*{totalPrice}" readonly="readonly" required/>
 						</div>
 					</div>
+
 					<div class="row">
 						<div class="col-md-5 mt-4">
 							<a href="/book-service" class="btn btn-warning" style="margin-right: 15px;"> Back</a>
 							<button type="submit" class="btn btn-success"> Save </button>
 						</div>
 					</div>
+
+					<div class="row mt-5">
+						<div class="col-md-6" id="booking_options_container">
+
+						</div>
+					</div>
+
 				</form>
 			</div>
 

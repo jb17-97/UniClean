@@ -22,7 +22,35 @@
             </nav>
 
             <div class="dashboard">
+                <th:block th:if="${session.user.role} != 'ADMIN'">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Total</h5>
+                                    <p class="card-text">Total Bookings: <span th:text="${total}"></span></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Completed</h5>
+                                    <p class="card-text">Completed Bookings: <span th:text="${completed}"></span></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Cancelled</h5>
+                                    <p class="card-text">Cancelled Bookings: <span th:text="${cancelled}"></span></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
+                </th:block>
             </div>
         </div>
     </main>

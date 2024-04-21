@@ -13,7 +13,7 @@ public class SessionInterceptor implements HandlerInterceptor {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		HttpSession session = request.getSession(false);
-		System.out.println("Inerceptor is calling");
+		//System.out.println("Inerceptor is calling");
         
         // Check if session exists and user is authenticated
         if (session == null || session.getAttribute("user") == null) {

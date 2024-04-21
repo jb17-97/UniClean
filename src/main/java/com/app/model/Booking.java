@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.sql.Timestamp;
+import java.time.LocalTime;
 import java.util.Date;
 
 @Entity
@@ -22,12 +23,15 @@ public class Booking {
     @Column(name = "cleaning_type", nullable = false)
     private String cleaningType;
 
- /*   @Column(name = "service_type", nullable = false)
-    private String serviceType;*/
+    @Column(name = "service_type", nullable = false)
+    private String serviceType;
 
     @Column(name = "cleaning_date")
     @Temporal(TemporalType.DATE)
     private Date cleaningDate;
+
+    @Column(name = "cleaning_time")
+    private LocalTime cleaningTime;
 
     @Column(name = "hour")
     private Double hour;

@@ -22,38 +22,48 @@
       background-color: #f5f5f5;
     }
 
-    header {
-      background-color: #343a40;
+     header {
+      background-color: #DDFFDF;
       color: #ffffff;
       padding: 10px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-    }
+      position: fixed;
+      top:0;
+      width: 100%;
+        }
 
-    header a {
-      text-decoration: none;
-      color: #ffffff;
-      font-weight: bold;
-      font-size: 16px;
-      padding: 8px 12px;
-      border-radius: 5px;
-      transition: background-color 0.3s ease;
-    }
+       header a {
+          text-decoration: none;
+          color: #025D06;
+          font-weight: bold;
+          font-size: 16px;
+          padding: 8px 12px;
+          border-radius: 5px;
+          transition: background-color 0.3s ease;
+        }
 
-    header a:hover {
-      background-color: #5a6268;
-    }
+        header a:hover {
+          background-color: #025D06;
+          color: #DDFFDF;
+        }
+
+        header img {
+          width: 100px;
+          height: 100px;
+        }
+
+        header nav {
+          display: flex;
+          gap: 20px;
+        }
 
     header img {
       width: 100px;
       height: 100px;
     }
 
-    header nav {
-      display: flex;
-      gap: 20px;
-    }
 
     .container {
       flex: 1;
@@ -91,16 +101,24 @@
     .login-card .btn-primary:hover {
       background-color: #0d6efd;
     }
+    button{
+         background-color: #2eb82e;
+         border: 1px solid transparent;
+         border-radius: 10px;
+         color: #DDFFDF;
+         margin-bottom: 10px;
+         margin-left: 20px
+        }
+   footer {
+          background-color: #DDFFDF;
+          color: #025D06;
+          margin-top:20px;
+          padding: 10px;
+          text-align: center;
+          bottom: 0;
+          width: 100%;
+        }
 
-    footer {
-      background-color: #343a40;
-      color: #ffffff;
-      padding: 10px;
-      text-align: center;
-      position: fixed;
-      bottom: 0;
-      width: 100%;
-    }
   </style>
 </head>
 
@@ -200,11 +218,26 @@
             </select>
           </div>
         </div>
+
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="university">University:</label>
+            <select class="form-control" id="university" th:field="*{university}" required>
+              <option value="">--select one--</option>
+              <option value="UoB">UoB</option>
+              <option value="BCU">BCU</option>
+              <option value="Aston University">Aston University</option>
+              <option value="Warrick University">Warrick University</option>
+              <option value="Coventry University">Coventry University </option>
+            </select>
+          </div>
+        </div>
+
       </div>
 
       <div class="row">
           <div class="col-md-4">
-            <button type="submit" class="btn btn-primary">Register</button>
+            <button type="submit">Register</button>
           </div>
       </div>
 
